@@ -1,0 +1,33 @@
+version: '3.8'
+services:
+  backend_1:
+    image: institutobackend:1
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    ports:
+      - target: 8080
+        published: 8080
+        protocol: tcp
+        mode: host
+    networks:
+      - desarrollo_net
+  dbclases_1:
+    image: postgres:15.0-bullseye
+    environment:
+      - TZ=America/Guayaquil
+      - POSTGRES_DB=postgres
+      - POSTGRES_PASSWORD=
+      - POSTGRES_USER=postgres
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - pg_tendencia_data:/var/lib/postgresql/data/pgdata
+    networks:
+      - desarrollo_net
+
+volumes:
+  pg_tendencia_data:
+    external: true
+
+networks:
+  desarrollo_net:
+    external: true
